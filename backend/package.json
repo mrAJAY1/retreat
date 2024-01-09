@@ -5,8 +5,8 @@
   "main": "./src/index.ts",
   "scripts": {
     "dev": "nodemon",
-    "test": "cross-env NODE_ENV=test DOTENV_CONFIG_PATH=.env.test.local jest --testTimeout=5000",
-    "test:watch": "cross-env NODE_ENV=test DOTENV_CONFIG_PATH=.env.test.local jest --watch --testTimeout=5000"
+    "test": "cross-env NODE_ENV=test DOTENV_CONFIG_PATH=.env.test.local jest",
+    "test:watch": "cross-env NODE_ENV=test DOTENV_CONFIG_PATH=.env.test.local jest --watch"
   },
   "author": "Ajay Prakash",
   "license": "ISC",
