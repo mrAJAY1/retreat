@@ -744,11 +744,11 @@ const getEmailContentWithVerifyLink = (linkToVerify: string) => {
                                     style="padding-top: 55px; text-align: center">
                                     <div class="alignment" align="center">
                                       <!--[if mso]>
-    <v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" href=${linkToVerify} style="height:60px;width:460px;v-text-anchor:middle;" arcsize="34%" strokeweight="3pt" strokecolor="#F1F1F1" fillcolor="#ff0000">
-    <w:anchorlock/>
-    <v:textbox inset="0px,0px,0px,0px">
-    <center style="color:#ffffff; font-family:'Trebuchet MS', Tahoma, sans-serif; font-size:16px">
-    <!
+      <v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" href=${linkToVerify} style="height:60px;width:460px;v-text-anchor:middle;" arcsize="34%" strokeweight="3pt" strokecolor="#F1F1F1" fillcolor="#ff0000">
+      <w:anchorlock/>
+      <v:textbox inset="0px,0px,0px,0px">
+      <center style="color:#ffffff; font-family:'Trebuchet MS', Tahoma, sans-serif; font-size:16px">
+      <!
                                       [endif]--><a
                                         href="${linkToVerify}"
                                         target="_blank"
@@ -792,7 +792,7 @@ const getEmailContentWithVerifyLink = (linkToVerify: string) => {
                                             >Verify Email</span
                                           ></span
                                         ></a
-                                      >><!--[if mso]></center></v:textbox></v:roundrect><![endif]-->
+                                      ><!--[if mso]></center></v:textbox></v:roundrect><![endif]-->
                                     </div>
                                   </td>
                                 </tr>
@@ -1093,6 +1093,7 @@ const getEmailContentWithVerifyLink = (linkToVerify: string) => {
       <!-- End -->
     </body>
   </html>
+  
   `;
 };
 
