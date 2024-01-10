@@ -2,11 +2,11 @@ import jwt from "jsonwebtoken";
 
 export type TokenType = "verificationToken" | "refreshToken" | "accessToken";
 
-export const createToken = (
-  email: string,
-  name: string,
-  tokenType: TokenType
-): string => {
+export const createToken = (payload: object, tokenType: TokenType): string => {
+  if (Object.keys(payload).length === 0) {
+    throw new Error("Payload cannot be empty");
+  }
+  // env variables
   const {
     VERIFICATION_TOKEN_KEY,
     REFRESH_TOKEN_KEY,
@@ -35,15 +35,10 @@ export const createToken = (
     verificationToken: VT_EXPIRY || "24h",
   };
 
-  const additionalClaims =
-    tokenType === "verificationToken" ? { verification: "email" } : {};
-
   // signs the token with appropriate keys and payload
-  const token = jwt.sign(
-    { email, name, ...additionalClaims },
-    tokenKeys[tokenType],
-    { expiresIn: tokenExpiry[tokenType] }
-  );
+  const token = jwt.sign({ payload }, tokenKeys[tokenType], {
+    expiresIn: tokenExpiry[tokenType],
+  });
 
   return token;
 };

@@ -2,6 +2,7 @@ import "dotenv/config";
 import express, { Request, Response } from "express";
 import cors from "cors";
 import mongoose from "mongoose";
+import cookieParser from "cookie-parser";
 
 const db = mongoose.connection;
 
@@ -15,6 +16,7 @@ const app = express();
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser(process.env.COOKIE_KEY));
 app.use(cors());
 
 app.use("/api/test", async (_req: Request, res: Response) => {
@@ -24,3 +26,5 @@ app.use("/api/test", async (_req: Request, res: Response) => {
 const port = process.env.PORT || 5100;
 
 app.listen(port, () => console.log(`Backend running on ${port}`));
+
+export default app;

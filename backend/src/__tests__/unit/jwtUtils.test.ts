@@ -17,27 +17,41 @@ describe("createToken fn() test cases", () => {
     process.env = originalEnv;
   });
 
-  const testTokenThrowsError = (tokenType: TokenType) => {
-    expect(() => createToken("test@test.com", "test user", tokenType)).toThrow(
-      `Invalid or missing environment variable for ${tokenType}`
-    );
-  };
+  it("Should throw error if payload is empty", () => {
+    expect.assertions(3);
+    const testPayload = (tokenType: TokenType) => {
+      expect(() => createToken({}, tokenType)).toThrow(
+        "Payload cannot be empty"
+      );
+    };
+    testPayload("accessToken");
+    testPayload("refreshToken");
+    testPayload("verificationToken");
+  });
 
-  it("Should throw error if secret key for access token is not provided", () => {
-    delete process.env.ACCESS_TOKEN_KEY;
-    testTokenThrowsError("accessToken");
-  });
-  it("Should throw error if secret key for refresh token is not provided", () => {
-    delete process.env.REFRESH_TOKEN_KEY;
-    testTokenThrowsError("refreshToken");
-  });
-  it("Should throw error if secret key for verification token is not provided", () => {
-    delete process.env.VERIFICATION_TOKEN_KEY;
-    testTokenThrowsError("verificationToken");
+  describe("Error handling for invalid or missing env variable", () => {
+    const testTokenThrowsError = (tokenType: TokenType) => {
+      expect(() => createToken({ email: "test@test.com" }, tokenType)).toThrow(
+        `Invalid or missing environment variable for ${tokenType}`
+      );
+    };
+
+    it("Should throw error if secret key for access token is not provided", () => {
+      delete process.env.ACCESS_TOKEN_KEY;
+      testTokenThrowsError("accessToken");
+    });
+    it("Should throw error if secret key for refresh token is not provided", () => {
+      delete process.env.REFRESH_TOKEN_KEY;
+      testTokenThrowsError("refreshToken");
+    });
+    it("Should throw error if secret key for verification token is not provided", () => {
+      delete process.env.VERIFICATION_TOKEN_KEY;
+      testTokenThrowsError("verificationToken");
+    });
   });
 
   const testReturnsToken = (tokenType: TokenType) => {
-    expect(createToken("test@test.com", "test user", tokenType)).toBeDefined();
+    expect(createToken({ email: "test@test.com" }, tokenType)).toBeDefined();
   };
 
   it("Should return a refresh token", () => {
