@@ -3,6 +3,9 @@ import { TokenType, createToken } from "../../utils/jwtUtils";
 
 describe("createToken fn() test cases", () => {
   let originalEnv: typeof process.env;
+
+  const testUser = { email: "test@test.com", name: "test" };
+
   beforeEach(() => {
     originalEnv = { ...process.env };
     process.env = {
@@ -18,35 +21,46 @@ describe("createToken fn() test cases", () => {
   });
 
   const testTokenThrowsError = (tokenType: TokenType) => {
-    expect(() => createToken("test@test.com", "test user", tokenType)).toThrow(
-      `Invalid or missing environment variable for ${tokenType}`
-    );
+    expect(() => createToken(testUser, tokenType)).toThrow(`Invalid or missing environment variable for ${tokenType}`);
   };
-
-  it("Should throw error if secret key for access token is not provided", () => {
-    delete process.env.ACCESS_TOKEN_KEY;
-    testTokenThrowsError("accessToken");
-  });
-  it("Should throw error if secret key for refresh token is not provided", () => {
-    delete process.env.REFRESH_TOKEN_KEY;
-    testTokenThrowsError("refreshToken");
-  });
-  it("Should throw error if secret key for verification token is not provided", () => {
-    delete process.env.VERIFICATION_TOKEN_KEY;
-    testTokenThrowsError("verificationToken");
-  });
 
   const testReturnsToken = (tokenType: TokenType) => {
-    expect(createToken("test@test.com", "test user", tokenType)).toBeDefined();
+    expect(createToken(testUser, tokenType)).toBeDefined();
   };
 
-  it("Should return a refresh token", () => {
-    testReturnsToken("refreshToken");
+  describe('Error handling', () => {
+    it("Should throw error if payload is empty", () => {
+      expect(() => createToken({}, "accessToken")).toThrow("Payload cannot be empty");
+    });
+
+    it("Should throw error if secret key for access token is not provided", () => {
+      delete process.env.ACCESS_TOKEN_KEY;
+      testTokenThrowsError("accessToken");
+    });
+
+    it("Should throw error if secret key for refresh token is not provided", () => {
+      delete process.env.REFRESH_TOKEN_KEY;
+      testTokenThrowsError("refreshToken");
+    });
+
+    it("Should throw error if secret key for verification token is not provided", () => {
+      delete process.env.VERIFICATION_TOKEN_KEY;
+      testTokenThrowsError("verificationToken");
+    });
   });
-  it("Should return an access token", () => {
-    testReturnsToken("accessToken");
-  });
-  it("Should return a verification token", () => {
-    testReturnsToken("verificationToken");
+
+  describe('Token generation', () => {
+    it("Should return a refresh token", () => {
+      testReturnsToken("refreshToken");
+    });
+
+    it("Should return an access token", () => {
+      testReturnsToken("accessToken");
+    });
+
+    it("Should return a verification token", () => {
+      testReturnsToken("verificationToken");
+    });
   });
 });
+

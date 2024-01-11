@@ -1,5 +1,5 @@
 import "dotenv/config";
-import sendVerificationEmail from "../../utils/sendVerificationEmail";
+// import sendVerificationEmail from "../../utils/sendVerificationEmail";
 
 describe("sendVerificationEmail() test cases", () => {
   //NOTE - uncomment when buying a domain to avoid email being listed into spam
