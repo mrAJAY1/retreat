@@ -1,10 +1,12 @@
 import "dotenv/config";
-import express, { Request, Response } from "express";
+import express from "express";
 import cors from "cors";
 import mongoose from "mongoose";
 import cookieParser from "cookie-parser";
 
-const db = mongoose.connection;
+import authRouter from "./routes/auth";
+
+export const db = mongoose.connection;
 
 mongoose.connect(process.env.MONGO_URI as string);
 
@@ -19,9 +21,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser(process.env.COOKIE_KEY));
 app.use(cors());
 
-app.use("/api/test", async (_req: Request, res: Response) => {
-  res.json({ message: "Hello from express server" });
-});
+app.use("/api/auth", authRouter);
 
 const port = process.env.PORT || 5100;
 
