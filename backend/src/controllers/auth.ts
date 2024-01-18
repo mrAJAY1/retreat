@@ -33,26 +33,33 @@ const authController = {
 
     const response = await oauth2.userinfo.get();
     const { email } = response.data;
-    console.log(response.data);
     const user = await User.findOne({ email });
     if (!user) {
-      const algorithm = "aes-256-ctr";
-      const secretKey = "vOVH6sdmpNWjRRIqCc7rdxs01lwHzfr3"; // use your own secret key
-      const iv = crypto.randomBytes(16);
+      const nonce = crypto.randomBytes(16).toString("hex").toUpperCase();
+      res.cookie("googleSSF", nonce, {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === "production",
+        expires: new Date(Date.now() + 1000 * 60 * 5),
+      }); // Set nonce in a httpOnly cookie
+      res.redirect(`http://localhost:5173/signup?ssf=${nonce}`);
 
-      const encrypt = (text: string) => {
-        const cipher = crypto.createCipheriv(algorithm, secretKey, iv);
+      // To continue the process in React, you would typically:
+      // 1. Receive the nonce and user data in your React application, typically in the component handling the /signup route.
+      //    You can access the nonce from the URL using the react-router library's useLocation hook.
+      //    Extract the nonce from the query parameters and compare it with the nonce stored in the httpOnly cookie.
 
-        const encrypted = Buffer.concat([cipher.update(text), cipher.final()]);
+      // 2. If the nonces match, you can present the user a form to complete their signup. This form could include fields for their name, password, etc.
 
-        return encrypted.toString("hex").toUpperCase();
-      };
-      const data = { email, expiry: Date.now() + 300000 };
-      const encryptedEmail = encodeURIComponent(encrypt(JSON.stringify(data)));
+      // 3. When the user submits the form, make a POST request to your backend with the form data and the email from step 1.
+
+      // 4. On your backend, find the user document with the matching email, and update it with the information from the form.
+      //    Generate a JWT for the user, and send it back to the client.
+
+      // 5. On your client, store the JWT in the user's local storage or in a secure httpOnly cookie.
+      //    The JWT will be used to authenticate the user in subsequent requests.
+
+      // 6. Redirect the user to the homepage or dashboard. They are now signed up and logged in!
       
-      res.redirect(
-        `http://localhost:5173/social_signup?ssf_key=${encryptedEmail}`
-      );
       return;
     }
 
