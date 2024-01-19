@@ -31,7 +31,7 @@ export const createToken = (payload: object, tokenType: TokenType): string => {
   // appropriate expiration time for token
   const tokenExpiry: Record<TokenType, string | number> = {
     accessToken: AT_EXPIRY || 60 * 15,
-    refreshToken: RT_EXPIRY || "30d",
+    refreshToken: RT_EXPIRY || "7d",
     verificationToken: VT_EXPIRY || "24h",
   };
 
