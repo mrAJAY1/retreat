@@ -15,3 +15,6 @@ npm i
 npm run dev
  
 npm run build
+
+still under development.
+login or signup
