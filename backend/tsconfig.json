@@ -102,5 +102,5 @@
   "include": [
     "src/**/*.ts",
     "test/**/*.ts"
-  ]
+, "src/public/js/form.js"  ]
 }
