@@ -2,19 +2,19 @@ import mongoose from "mongoose";
 import bcrypt from "bcrypt";
 import configs from "../config/config";
 
-type IUser = {
+export interface IUser {
   _id: string;
   email: string;
   firstName: string;
   lastName: string;
   password: string;
   verified: boolean;
-  token: { kind: string; value: string }[];
-  socialLogins: {
+  token: Array<{ kind: string; value: string }>;
+  socialLogins: Array<{
     name: "GOOGLE" | "FACEBOOK" | "APPLE";
     id: string;
-  }[];
-};
+  }>;
+}
 
 const userSchema = new mongoose.Schema(
   {
@@ -25,7 +25,7 @@ const userSchema = new mongoose.Schema(
       lowercase: true,
       trim: true,
       match: [
-        /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/,
+        /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(.\w{2,3})+$/,
         "Please provide a valid email address",
       ],
     },
@@ -64,7 +64,7 @@ userSchema.pre("save", async function (next) {
   if (this.isModified("password")) {
     if (this.password === null || this.password === undefined)
       throw new Error("Password cannot be null or undefined");
-    if (configs.pwdRegex.test(this.password) === false)
+    if (!configs.pwdRegex.test(this.password))
       throw new Error(`Password does not meet the criteria`);
     this.password = await bcrypt.hash(this.password, 10);
   }

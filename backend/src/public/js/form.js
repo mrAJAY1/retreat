@@ -10,70 +10,80 @@ const checkInputs = {
     const nameRegex = /^[a-zA-Z]{2,14}$/;
     if (firstNameValue === "") {
       setErrorInput(firstName, "First name cannot be blank.");
-    } else if (!firstNameValue.match(nameRegex)) {
-      setErrorInput(firstName, "Name must be valid");
-    } else {
-      setSuccessInput(firstName);
+      return;
     }
+    if (!firstNameValue.match(nameRegex)) {
+      setErrorInput(firstName, "Name must be valid");
+      return;
+    }
+    setSuccessInput(firstName);
+    return;
   },
   lastName: () => {
     const lastNameValue = lastName.value.trim(); //trim to delete blank space.
     const nameRegex = /^[a-zA-Z]{2,14}(\s[A-Z][a-zA-Z]{2,14})*$/;
     if (lastNameValue === "") {
       setErrorInput(lastName, "Last name cannot be blank.");
-    } else if (!lastNameValue.match(nameRegex)) {
-      setErrorInput(lastName, "Name must be valid");
-    } else {
-      setSuccessInput(lastName);
+      return;
     }
+    if (!lastNameValue.match(nameRegex)) {
+      setErrorInput(lastName, "Name must be valid");
+      return;
+    }
+    setSuccessInput(lastName);
+    return;
   },
   birthDate: () => {
     const birthDateValue = birthDate.value;
     if (birthDateValue === "") {
-      return setErrorInput(birthDate, "Birth date cannot be blank.");
+      setErrorInput(birthDate, "Birth date cannot be blank.");
+      return;
     }
     // Calculate the date for 18 years ago from the current date to focus on
     const eighteenYearsAgo = new Date();
     eighteenYearsAgo.setFullYear(eighteenYearsAgo.getFullYear() - 18);
     eighteenYearsAgo.setDate(eighteenYearsAgo.getDate() - 1);
+
+    // checks if the selected date is less than 18 years ago
     if (Datepicker.parseDate(birthDateValue, "dd-mm-yyyy") > eighteenYearsAgo) {
-      console.log(birthDateValue);
-      return setErrorInput(birthDate, "You must be at least 18 years old");
+      setErrorInput(birthDate, "You must be at least 18 years old");
+      return;
     }
-    return setSuccessInput(birthDate);
+    setSuccessInput(birthDate);
+    return;
   },
 
   email: () => {
     const emailValue = email.value.trim();
+
+    // dataset is defined here
+    // LINK - backend/src/views/signupForm.ejs:83
+    const emailShouldBe = dataEmail;
+    if (isSocialSignup) {
+      if (!validateEmail(emailValue)) {
+        window.location.href = "/?error=invalid email";
+        return;
+      }
+      if (emailValue !== emailShouldBe) {
+        window.location.href = '/?error="email does not match';
+        return;
+      }
+    }
+
     if (emailValue === "") {
-      return setErrorInput(email, "Email cannot be blank.");
+      setErrorInput(email, "Email cannot be blank");
+      return;
     }
     if (!validateEmail(emailValue)) {
-      return setErrorInput(email, "Enter a valid email address");
+      setErrorInput(email, "Enter a valid email address");
+      return;
+    } else {
+      setSuccessInput(email);
     }
+
     return;
   },
 };
-
-firstName.addEventListener("input", () => {
-  checkInputs.firstName();
-});
-lastName.addEventListener("input", () => {
-  checkInputs.lastName();
-});
-// custom event injected by Datepicker
-birthDate.addEventListener("changeDate", () => {
-  checkInputs.birthDate();
-});
-
-form.addEventListener("submit", (e) => {
-  Object.keys(checkInputs).forEach((input) => {
-    e.preventDefault();
-    checkInputs[input]();
-  });
-  const noErrors = !document.querySelector(".form__control.error");
-  if (noErrors) console.log("no errors");
-});
 
 function setErrorInput(input, errorMessage) {
   const formControl = input.parentElement;
@@ -98,20 +108,50 @@ function validateEmail(email) {
 const datepicker = new Datepicker(birthDate, {
   autohide: true,
   maxDate: new Date(),
+  minDate: new Date().setFullYear(new Date().getFullYear() - 100),
   format: "dd/mm/yyyy",
   orientation: "top",
 });
 
-//   const response = await fetch("/social_signup", {
-//     method: "POST",
-//     headers: {
-//       "Content-Type": "application/json",
-//       Authorization: `Bearer ${ssf_key}`,
-//     },
-//     body: JSON.stringify({
-//       firstName,
-//       lastName,
-//       age,
-//       email,
-//     }),
-//   });
+firstName.addEventListener("input", () => {
+  checkInputs.firstName();
+});
+lastName.addEventListener("input", () => {
+  checkInputs.lastName();
+});
+// custom event injected by Datepicker
+birthDate.addEventListener("changeDate", () => {
+  checkInputs.birthDate();
+});
+
+form.addEventListener("submit", (e) => {
+  Object.keys(checkInputs).forEach((input) => {
+    e.preventDefault();
+    checkInputs[input]();
+  });
+  const noErrors = !document.querySelector(".form__control.error");
+  if (noErrors) {
+    fetch(actionUrl, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${ssfKey}`,
+      },
+      body: JSON.stringify({
+        firstName: firstName.value,
+        lastName: lastName.value,
+        birthDate: birthDate.value,
+        email: email.value,
+      }),
+    }).then(async (res) => {
+      if (res.status === 200) {
+        window.location.href = "/complete_signup/?success=1";
+      } else {
+        console.log(await res.json());
+        setTimeout(() => {
+          window.location.href = "/complete_signup/?error=1";
+        }, 5000);
+      }
+    });
+  }
+});

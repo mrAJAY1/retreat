@@ -1,26 +1,47 @@
+type Config = {
+  pwdRegex: RegExp;
+  frontendOrigin: string;
+  googleCallbackUrl: string;
+  cookieDomain: string | undefined;
+  secure?: boolean;
+  sameSite?: "none" | "strict" | "lax";
+  sessionCookieMaxAge: number;
+};
+
 type ConfigType = {
-  [key: string]: {
-    pwdRegex: RegExp;
-  };
+  [key: string]: Config;
+};
+
+const defaultConfig: Config = {
+  pwdRegex: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/,
+  frontendOrigin: process.env.CLIENT_URL || "http://localhost:5173",
+  googleCallbackUrl: `http://localhost:${
+    process.env.PORT || 5100
+  }/api/auth/google/callback`,
+  cookieDomain: "localhost",
+  sameSite: "none",
+  sessionCookieMaxAge: 1000 * 60 * 5,
 };
 
 const configs: ConfigType = {
   development: {
-    pwdRegex: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/,
-    // Explanation of the regular expression:
-    // - /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/;
-    // - /^(?=.*[a-z])   - The password must contain at least one lowercase letter
-    // - (?=.*[A-Z])     - The password must contain at least one uppercase letter
-    // - (?=.*\d)        - The password must contain at least one digit
-    // - [a-zA-Z\d]{8,}  - The password must be at least 8 characters long and can contain letters (both lowercase and uppercase) and digits
-    // - $/              - End of the regular expression
+    ...defaultConfig,
   },
   production: {
-    pwdRegex: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/,
+    ...defaultConfig,
+    frontendOrigin: process.env.CLIENT_URL || "",
+    googleCallbackUrl: `https://${process.env.DOMAIN}/api/auth/google/callback`,
+    secure: true,
+    cookieDomain: process.env.DOMAIN,
   },
   test: {
+    ...defaultConfig,
     pwdRegex: /./,
   },
 };
 
-export default configs[process.env.NODE_ENV || "development"];
+const env = process.env.NODE_ENV || "development";
+
+if (!configs[env]) throw new Error(`Invalid NODE_ENV: ${env}`);
+
+export default configs[env];

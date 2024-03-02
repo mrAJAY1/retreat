@@ -1,4 +1,6 @@
+import { Response } from "express";
 import jwt from "jsonwebtoken";
+import config from "../config/config";
 
 export type TokenType = "verificationToken" | "refreshToken" | "accessToken";
 
@@ -42,3 +44,22 @@ export const createToken = (payload: object, tokenType: TokenType): string => {
 
   return token;
 };
+
+export const sendAccessTokenCookie = (res: Response, payload: object) => {
+  res.cookie("accessToken", createToken(payload, "accessToken"), {
+    secure: config.secure,
+    expires: new Date(
+      Date.now() + 1000 * (Number(process.env.AT_EXPIRY) || 60 * 15)
+    ),
+  });
+};
+export const sendRefreshToken = (res: Response, payload: object) => {
+  res.cookie("refreshToken", createToken(payload, "refreshToken"), {
+    httpOnly: true,
+    secure: config.secure,
+    expires: new Date(
+      Date.now() + 1000 * (Number(process.env.RT_EXPIRY) || 60 * 60 * 24 * 7)
+    ),
+  });
+};
+
