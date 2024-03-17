@@ -125,8 +125,8 @@ birthDate.addEventListener("changeDate", () => {
 });
 
 form.addEventListener("submit", (e) => {
+  e.preventDefault();
   Object.keys(checkInputs).forEach((input) => {
-    e.preventDefault();
     checkInputs[input]();
   });
   const noErrors = !document.querySelector(".form__control.error");
