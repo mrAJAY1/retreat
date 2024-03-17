@@ -1,4 +1,23 @@
-@import url('https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600;700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600;700&display=swap");
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+* {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.menu-item {
+  @apply ps-8 pe-20 py-4 text-sm hover:bg-secondary-200 cursor-pointer;
+}
+.nav-item {
+  @apply text-secondary-800 hover:text-black transition-colors;
+}
+body {
+  user-select: none;
+}
+img {
+  -webkit-user-drag: none;
+  user-select: none;
+}
