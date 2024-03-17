@@ -8,16 +8,24 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-.menu-item {
-  @apply ps-8 pe-20 py-4 text-sm hover:bg-secondary-200 cursor-pointer;
-}
-.nav-item {
-  @apply text-secondary-800 hover:text-black transition-colors;
-}
 body {
   user-select: none;
 }
 img {
   -webkit-user-drag: none;
   user-select: none;
+}
+
+.menu-item {
+  @apply ps-8 pe-20 py-4 text-sm hover:bg-secondary-200 cursor-pointer;
+}
+.nav-item {
+  @apply text-secondary-800 rounded-full p-3 transition-colors;
+}
+.nav-item:not(.active) {
+  @apply hover:bg-secondary-200;
+}
+
+.nav-item.active {
+  @apply text-black font-medium;
 }

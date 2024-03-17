@@ -28,7 +28,7 @@
   },
   "include": [
     "src"
-  ],
+, "src/components/DesktopHeader.tsx"  ],
   "references": [
     {
       "path": "./tsconfig.node.json"
