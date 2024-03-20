@@ -1,6 +1,7 @@
 import logoBlack from "@/assets/logo-black-transparent.svg";
 import { Link } from "react-router-dom";
 import Divider from "./Divider";
+
 const Footer = () => {
   return (
     <footer className="bg-secondary-400 py-4">

@@ -1,7 +1,7 @@
 import { List } from "@phosphor-icons/react";
 import { useEffect, useState } from "react";
 import UserCircle from "@/assets/user-circle.svg";
-import ProfileMenuList from './ProfileMenuList'
+import ProfileMenuList from "./ProfileMenuList";
 
 function ProfileMenu() {
   const [isHidden, setIsHidden] = useState<boolean>(true);

@@ -8,7 +8,7 @@ const ResponsiveHeader = () => {
   const isMobile = useMediaQuery({ maxWidth: 768 });
 
   return (
-    <header aria-label="header" className="py-6 md:mb-12 relative">
+    <header aria-label="header" className="md:py-6 md:mb-12 relative">
       <Suspense fallback={null}>
         {isMobile ? <MobileHeader /> : <DesktopHeader />}
       </Suspense>

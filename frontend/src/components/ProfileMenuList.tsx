@@ -4,10 +4,10 @@ import LoginOrSignup from "./LoginOrSignup";
 import { useState } from "react";
 
 const ProfileMenuList = () => {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isLoggedIn] = useState(false);
   return (
     <motion.ul
-      className=" bg-white absolute right-0 rounded-xl w-fit  shadow-[0_0_10px_0_rgba(0,0,0,0.2)]"
+      className=" bg-white absolute right-0 rounded-xl w-fit  shadow-[0_0_10px_0_rgba(0,0,0,0.2)] z-10"
       id="user-menu"
       initial={{ top: 0, opacity: 0 }}
       animate={{ top: "calc(100% + 10px)", opacity: 1 }}
