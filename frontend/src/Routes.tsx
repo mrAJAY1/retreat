@@ -1,6 +1,6 @@
-import { createBrowserRouter } from "react-router-dom";
-import { Layout } from "./layouts/Layout";
-import App from "./App";
+import {createBrowserRouter} from 'react-router-dom';
+import Layout from './layout';
+import App from './App';
 
 // GOOGLE POPUP
 const handleClick = () => {
@@ -11,27 +11,27 @@ const handleClick = () => {
   // );
 
   window.addEventListener(
-    "message",
+    'message',
     (event) => {
       // Validate origin
-      if (event.origin !== "http://localhost:5100") return;
+      if (event.origin !== 'http://localhost:5100') return;
 
       // Handle message
       const data = event.data;
       // Perform your logic here with data received from the popup
       console.log(data);
     },
-    false
+    false,
   );
 };
 
 const router = createBrowserRouter([
   {
-    path: "/",
+    path: '/',
     element: <App />,
     children: [
       {
-        path: "/",
+        path: '/',
         element: (
           <Layout>
             <button onClick={handleClick}>Continue with google</button>
@@ -39,7 +39,7 @@ const router = createBrowserRouter([
         ),
       },
       {
-        path: "/search",
+        path: '/search',
         element: (
           <Layout>
             <p>Search</p>
@@ -47,7 +47,7 @@ const router = createBrowserRouter([
         ),
       },
       {
-        path: "/social_signup",
+        path: '/social_signup',
         element: <div>social signup</div>,
       },
     ],

@@ -1,5 +1,5 @@
 import "dotenv/config";
-import { TokenType, createToken } from "../../utils/jwtUtils";
+import { type TokenType, createToken } from "../../utils/jwtUtils";
 
 describe("createToken fn() test cases", () => {
   let originalEnv: typeof process.env;
@@ -19,10 +19,8 @@ describe("createToken fn() test cases", () => {
 
   it("Should throw error if payload is empty", () => {
     expect.assertions(3);
-    const testPayload = (tokenType: TokenType) => {
-      expect(() => createToken({}, tokenType)).toThrow(
-        "Payload cannot be empty"
-      );
+    const testPayload = (tokenType: TokenType): void => {
+      expect(() => createToken({}, tokenType)).toThrow("Payload cannot be empty");
     };
     testPayload("accessToken");
     testPayload("refreshToken");
@@ -30,9 +28,9 @@ describe("createToken fn() test cases", () => {
   });
 
   describe("Error handling for invalid or missing env variable", () => {
-    const testTokenThrowsError = (tokenType: TokenType) => {
+    const testTokenThrowsError = (tokenType: TokenType): void => {
       expect(() => createToken({ email: "test@test.com" }, tokenType)).toThrow(
-        `Invalid or missing environment variable for ${tokenType}`
+        `Invalid or missing environment variable for ${tokenType}`,
       );
     };
 
@@ -50,7 +48,7 @@ describe("createToken fn() test cases", () => {
     });
   });
 
-  const testReturnsToken = (tokenType: TokenType) => {
+  const testReturnsToken = (tokenType: TokenType): void => {
     expect(createToken({ email: "test@test.com" }, tokenType)).toBeDefined();
   };
 

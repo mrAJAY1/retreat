@@ -1,4 +1,4 @@
-const getEmailContentWithVerifyLink = (linkToVerify: string) => {
+const getEmailContentWithVerifyLink = (linkToVerify: string): string => {
   return `<!DOCTYPE html>
   <html
     xmlns:v="urn:schemas-microsoft-com:vml"

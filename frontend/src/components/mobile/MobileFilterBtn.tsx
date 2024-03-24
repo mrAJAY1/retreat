@@ -1,6 +1,6 @@
-import { Sliders } from "@phosphor-icons/react";
-import { useState } from "react";
-import FIlterDrawer from "./FIlterDrawer";
+import {Sliders} from '@phosphor-icons/react';
+import {useState} from 'react';
+import FIlterDrawer from 'common/filter/FilterDrawer';
 
 const MobileFilterBtn = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -11,7 +11,7 @@ const MobileFilterBtn = () => {
           transform="rotate(90)"
           size={18}
           weight="bold"
-          className="rounded-full border border-secondary-600 p-2.5 box-content"
+          className="box-content rounded-full border border-secondary-600 p-2.5"
         />
       </button>
       <FIlterDrawer isOpen={isOpen} setIsOpen={setIsOpen} />

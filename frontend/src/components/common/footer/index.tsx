@@ -1,32 +1,32 @@
-import logoBlack from "@/assets/logo-black-transparent.svg";
-import { Link } from "react-router-dom";
-import Divider from "./Divider";
+import logoBlack from 'assets/logo-black-transparent.svg';
+import {Link} from 'react-router-dom';
+import Divider from 'common/divider';
 
 const Footer = () => {
   return (
     <footer className="bg-secondary-400 py-4">
-      <div className="w-full mx-auto flex flex-col items-center gap-y-2">
+      <div className="mx-auto flex w-full flex-col items-center gap-y-2">
         <figure>
           <Link to="/">
             <img
               src={logoBlack}
               alt="Retreat"
-              className="w-fit max-h-6 select-none"
+              className="max-h-6 w-fit select-none"
               draggable="false"
             />
           </Link>
         </figure>
         <Divider />
-        <span className="text-xs flex flex-col items-center md:flex-row">
+        <span className="flex flex-col items-center text-xs md:flex-row">
           <span className="flex gap-2">
             <span>
               &copy;
-              {" " + new Date().getFullYear()} Ajay Prakash, All rights
+              {' ' + new Date().getFullYear()} Ajay Prakash, All rights
               reserved.
             </span>
-            <span className="hidden md:inline-block me-2">&middot;</span>{" "}
+            <span className="me-2 hidden md:inline-block">&middot;</span>{' '}
           </span>
-          <ul className="tracking-tight flex flex-wrap gap-x-2 h-fit">
+          <ul className="flex h-fit flex-wrap gap-x-2 tracking-tight">
             <li>
               <a
                 href="#"

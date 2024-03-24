@@ -15,10 +15,7 @@ const tempSessionsSchema = new mongoose.Schema({
     unique: true,
     lowercase: true,
     trim: true,
-    match: [
-      /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(.\w{2,3})+$/,
-      "Please provide a valid email address",
-    ],
+    match: [/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(.\w{2,3})+$/, "Please provide a valid email address"],
   },
   token: {
     type: String,
@@ -38,12 +35,9 @@ tempSessionsSchema.methods.compareToken = async function (token: string) {
   if (this.isNew) {
     throw new Error("Token not yet saved, unable to compare");
   }
-  return await bcrypt.compare(token, this.token);
+  return await bcrypt.compare(token, this.token as string);
 };
 
-const TempSession = mongoose.model<ITempSession>(
-  "TempSession",
-  tempSessionsSchema
-);
+const TempSession = mongoose.model<ITempSession>("TempSession", tempSessionsSchema);
 
 export default TempSession;

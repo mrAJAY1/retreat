@@ -20,7 +20,6 @@ describe("Tests /api/auth endpoint", () => {
     console.log(response.body);
     // checks content-type: application/json
     expect(response.headers["content-type"]).toMatch(/application\/json/);
-    
   });
 });
- // Example: await db.dropDatabase();
+// Example: await db.dropDatabase();

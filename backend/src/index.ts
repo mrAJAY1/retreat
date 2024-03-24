@@ -15,7 +15,11 @@ export const db = mongoose.connection;
 
 if (process.env.NODE_ENV === "test") console.log("running on test mode");
 
-void mongoose.connect(process.env.MONGO_URI!);
+if (process.env.MONGO_URI && process.env.MONGO_URI.trim() !== "") {
+  void mongoose.connect(process.env.MONGO_URI);
+} else {
+  console.log("no mongo uri found");
+}
 
 db.once("open", () => {
   console.log("db established");
@@ -48,7 +52,7 @@ app.use(cookieParser(process.env.COOKIE_KEY));
 // social signup session cookie with maxAge 1 minute
 app.use(
   expressSession({
-    secret: process.env.COOKIE_KEY!,
+    secret: process.env.COOKIE_KEY ?? "some secret key",
     resave: false,
     saveUninitialized: false,
     cookie: {

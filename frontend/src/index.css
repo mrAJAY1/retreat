@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;600;700&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;600;700&display=swap');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -17,21 +17,23 @@ img {
 }
 
 .menu-item {
-  @apply ps-8 pe-20 py-4 text-sm hover:bg-secondary-200 cursor-pointer;
+  @apply cursor-pointer py-4 pe-20 ps-8 text-sm hover:bg-secondary-200;
 }
 .nav-item {
-  @apply text-secondary-800 rounded-full p-3 transition-colors;
+  @apply rounded-full p-3 text-secondary-800 transition-colors;
 }
 .nav-item:not(.active) {
   @apply hover:bg-secondary-200;
 }
 
 .nav-item.active {
-  @apply text-black font-medium;
+  @apply font-medium text-black;
 }
 
 .search-shadow {
-  box-shadow: 0 3px 12px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.08);
+  box-shadow:
+    0 3px 12px 0 rgba(0, 0, 0, 0.1),
+    0 1px 2px 0 rgba(0, 0, 0, 0.08);
 }
 
 .back {

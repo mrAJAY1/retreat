@@ -1,5 +1,5 @@
 import "dotenv/config";
-import { TokenType, createToken } from "../../utils/jwtUtils";
+import { type TokenType, createToken } from "../../utils/jwtUtils";
 
 describe("createToken fn() test cases", () => {
   let originalEnv: typeof process.env;
@@ -20,15 +20,15 @@ describe("createToken fn() test cases", () => {
     process.env = originalEnv;
   });
 
-  const testTokenThrowsError = (tokenType: TokenType) => {
+  const testTokenThrowsError = (tokenType: TokenType): void => {
     expect(() => createToken(testUser, tokenType)).toThrow(`Invalid or missing environment variable for ${tokenType}`);
   };
 
-  const testReturnsToken = (tokenType: TokenType) => {
+  const testReturnsToken = (tokenType: TokenType): void => {
     expect(createToken(testUser, tokenType)).toBeDefined();
   };
 
-  describe('Error handling', () => {
+  describe("Error handling", () => {
     it("Should throw error if payload is empty", () => {
       expect(() => createToken({}, "accessToken")).toThrow("Payload cannot be empty");
     });
@@ -49,7 +49,7 @@ describe("createToken fn() test cases", () => {
     });
   });
 
-  describe('Token generation', () => {
+  describe("Token generation", () => {
     it("Should return a refresh token", () => {
       testReturnsToken("refreshToken");
     });
@@ -63,4 +63,3 @@ describe("createToken fn() test cases", () => {
     });
   });
 });
-

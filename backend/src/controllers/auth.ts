@@ -1,5 +1,5 @@
 import crypto from "crypto";
-import { NextFunction, Request, Response } from "express";
+import { type NextFunction, type Request, type Response } from "express";
 import { google } from "googleapis";
 
 import { sendAccessTokenCookie, sendRefreshToken } from "../utils/jwtUtils";
@@ -37,7 +37,7 @@ const authController = {
     if (!code) {
       console.error("Google Auth Callback Error: Missing code in query string");
       const errorMessage = encodeURIComponent("Google authentication failed. Please try again.");
-      //REVIEW - Check this redirect
+      // REVIEW - Check this redirect
       return res.redirect(`${config.frontendOrigin}/error?message=${errorMessage}`);
     }
 
@@ -56,6 +56,7 @@ const authController = {
 
       if (!email) {
         res.redirect(400, `${config.frontendOrigin}/?error=1&message=Email not found in google account`);
+        return;
       }
 
       const user = await User.findOne({ email });
@@ -92,10 +93,9 @@ const authController = {
       // create temporary session
       await TempSession.findOneAndUpdate({ email }, { token: nonce }, { upsert: true });
 
-      req.session.socialSignup = { email: email! };
+      req.session.socialSignup = { email };
 
-      res.redirect(`/api/auth/complete_signup?ssf_key=${nonce}`);
-      return;
+      res.redirect(`/api/auth/complete_signup?ssfKey=${nonce}`);
     } catch (e: any) {
       console.log(e);
       next({ message: "Request failed due to an internal error" });
@@ -103,10 +103,10 @@ const authController = {
   },
   completeSignup: async (req: Request, res: Response) => {
     // const email = req.session.socialSignup?.email;
-    // const ssf_key = req.query.ssf_key;
+    // const ssfKey = req.query.ssfKey;
 
     // // REVIEW - Check this
-    // if (!email || !ssf_key) {
+    // if (!email || !ssfKey) {
     //   res.redirect(`${config.frontendOrigin}/?error=1&message=invalid session`);
     //   return;
     // }
@@ -116,15 +116,15 @@ const authController = {
     //   res.redirect(`${config.frontendOrigin}/?error=1&message=session expired`);
     //   return;
     // }
-    // if (!(await session.compareToken(ssf_key as string))) {
+    // if (!(await session.compareToken(ssfKey as string))) {
     //   res.redirect(`${config.frontendOrigin}/?error=1&message=invalid session`);
     //   return;
     // }
     const email = "test@test.com";
-    const ssf_key = "banana";
+    const ssfKey = "banana";
     res.render("signupForm", {
       email,
-      ssf_key,
+      ssfKey,
       actionUrl: "/api/auth/complete_signup",
       isSocialSignup: false,
     });

@@ -6,7 +6,7 @@ const birthDate = document.getElementById("birthDate");
 
 const checkInputs = {
   firstName: () => {
-    const firstNameValue = firstName.value.trim(); //trim to delete blank space.
+    const firstNameValue = firstName.value.trim(); // trim to delete blank space.
     const nameRegex = /^[a-zA-Z]{2,14}$/;
     if (firstNameValue === "") {
       setErrorInput(firstName, "First name cannot be blank.");
@@ -17,10 +17,9 @@ const checkInputs = {
       return;
     }
     setSuccessInput(firstName);
-    return;
   },
   lastName: () => {
-    const lastNameValue = lastName.value.trim(); //trim to delete blank space.
+    const lastNameValue = lastName.value.trim(); // trim to delete blank space.
     const nameRegex = /^[a-zA-Z]{2,14}(\s[A-Z][a-zA-Z]{2,14})*$/;
     if (lastNameValue === "") {
       setErrorInput(lastName, "Last name cannot be blank.");
@@ -31,7 +30,6 @@ const checkInputs = {
       return;
     }
     setSuccessInput(lastName);
-    return;
   },
   birthDate: () => {
     const birthDateValue = birthDate.value;
@@ -50,7 +48,6 @@ const checkInputs = {
       return;
     }
     setSuccessInput(birthDate);
-    return;
   },
 
   email: () => {
@@ -77,11 +74,8 @@ const checkInputs = {
     if (!validateEmail(emailValue)) {
       setErrorInput(email, "Enter a valid email address");
       return;
-    } else {
-      setSuccessInput(email);
     }
-
-    return;
+    setSuccessInput(email);
   },
 };
 
@@ -99,9 +93,9 @@ function setSuccessInput(input) {
 }
 
 function validateEmail(email) {
-  let regular_expressions =
+  const EmailReg =
     /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-  return regular_expressions.test(String(email).toLocaleLowerCase());
+  return EmailReg.test(String(email).toLocaleLowerCase());
 }
 
 /* DATE PICKER */
@@ -143,15 +137,17 @@ form.addEventListener("submit", (e) => {
         birthDate: birthDate.value,
         email: email.value,
       }),
-    }).then(async (res) => {
-      if (res.status === 200) {
-        window.location.href = "/complete_signup/?success=1";
-      } else {
-        console.log(await res.json());
-        setTimeout(() => {
-          window.location.href = "/complete_signup/?error=1";
-        }, 5000);
-      }
-    });
+    })
+      .then(async (res) => {
+        if (res.status === 200) {
+          window.location.href = "/complete_signup/?success=1";
+        } else {
+          console.log(await res.json());
+          setTimeout(() => {
+            window.location.href = "/complete_signup/?error=1";
+          }, 5000);
+        }
+      })
+      .catch((err) => console.log(err));
   }
 });

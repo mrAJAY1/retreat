@@ -1,21 +1,20 @@
-import { Link } from "react-router-dom";
-import { motion } from "framer-motion";
-import LoginOrSignup from "./LoginOrSignup";
-import { useState } from "react";
+import {motion} from 'framer-motion';
+import {useState} from 'react';
+import {Link} from 'react-router-dom';
+import LoginOrSignup from '../LoginOrSignup';
 
 const ProfileMenuList = () => {
   const [isLoggedIn] = useState(false);
   return (
     <motion.ul
-      className=" bg-white absolute right-0 rounded-xl w-fit  shadow-[0_0_10px_0_rgba(0,0,0,0.2)] z-10"
+      className=" absolute right-0 z-10 w-fit rounded-xl  bg-white shadow-[0_0_10px_0_rgba(0,0,0,0.2)]"
       id="user-menu"
-      initial={{ top: 0, opacity: 0 }}
-      animate={{ top: "calc(100% + 10px)", opacity: 1 }}
+      initial={{top: 0, opacity: 0}}
+      animate={{top: 'calc(100% + 10px)', opacity: 1}}
       transition={{
         duration: 0.1,
-        opacity: { delay: 0.01, ease: "easeInOut" },
-      }}
-    >
+        opacity: {delay: 0.01, ease: 'easeInOut'},
+      }}>
       {isLoggedIn ? (
         <>
           <li>
@@ -33,7 +32,7 @@ const ProfileMenuList = () => {
               Wishlist
             </Link>
           </li>
-          <li className="border-t text-nowrap">
+          <li className="text-nowrap border-t">
             <Link to="/account" className="menu-item block">
               Account
             </Link>
@@ -44,7 +43,7 @@ const ProfileMenuList = () => {
           <li role="button">
             <LoginOrSignup className="menu-item" />
           </li>
-          <li className="border-t text-nowrap">
+          <li className="text-nowrap border-t">
             <Link to="/host" className="menu-item block">
               Become a host
             </Link>
