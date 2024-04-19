@@ -7,14 +7,14 @@
 clone the repo 
 
 cd frontend
-npm i
-npm run dev
+`npm i`
+`npm run dev`
 
-cd backend
-npm i
-npm run dev
+`cd backend`
+`npm i`
+`npm run dev`
  
-npm run build
+`npm run build`
 
 still under development.
 login or signup
