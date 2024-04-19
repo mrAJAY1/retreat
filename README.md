@@ -6,14 +6,15 @@
 ## Installation
 clone the repo 
 
-cd frontend
-`npm i`
-`npm run dev`
+`cd frontend
+npm i
+npm run dev`
 
-`cd backend`
-`npm i`
-`npm run dev`
- 
+`cd backend
+ npm i
+ npm run dev`
+
+ ## To Build the project
 `npm run build`
 
 still under development.
